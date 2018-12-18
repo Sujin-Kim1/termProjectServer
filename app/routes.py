@@ -107,3 +107,45 @@ def pick_delete(name):
         pass
     return jsonify(res)
 
+
+@app.route('/api/nearby/')
+def brand():
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+    rows = c.execute("SELECT * FROM nearby")
+
+    data = []
+    for r in rows:
+        d = {}
+        d['name'] = r[0]
+        d['lat'] = r[1]
+        d['lng'] = r[2]
+        data.append(d)
+    print(json.dumps(data))
+    return jsonify(data)
+
+@app.route('/api/nearby/<name>')
+def brand_name(name):
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+    rows = c.execute("SELECT * FROM nearby WHERE name = '%s' " % name)
+    data = [r for r in rows]
+    print(data)
+
+    return jsonify(data)
+
+@app.route('/api/nearby/<name>', methods=['DELETE'])
+def brand_delete(name):
+    sql = "DELETE FROM nearby WHERE name = '%s' " % (name)
+    try:
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
+        res = c.execute(sql)
+        conn.commit()
+        print(res)
+        res = True
+    except:
+        res = False
+        pass
+    return jsonify(res)
+

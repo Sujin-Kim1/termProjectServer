@@ -41,3 +41,23 @@ try:
 except:
   print('Skip PICK')
   pass
+
+## 테이블 NEARBY
+try:
+  table = 'nearby'
+  c.execute('''DROP TABLE %s ''' % table)
+except:
+  pass
+
+try:
+  c.execute('''CREATE TABLE nearby (name text, lat real, lng real)''')
+  c.execute("INSERT INTO nearby VALUES ('임금님수타짜장면', 37.613360, 127.007857)")
+  c.execute("INSERT INTO nearby VALUES ('뚱땡이왕족발', 37.609598, 127.007980)")
+  c.execute("INSERT INTO nearby VALUES ('슬로카페달팽이', 37.609515, 127.008517)")
+  conn.commit()
+  print('Created nearby')
+
+except:
+  print('Skip nearby')
+  pass
+
